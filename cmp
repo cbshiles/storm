@@ -1,0 +1,2 @@
+clear
+g++ node.cpp -o ~/bin/storm -std=gnu++0x
