@@ -1,2 +1,3 @@
 clear
-g++ node.cpp -o ~/bin/storm -std=gnu++0x
+# g++ node.cpp -o ~/bin/storm -std=gnu++0x
+g++ sketch.cpp -std=gnu++0x

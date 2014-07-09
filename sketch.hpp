@@ -1,18 +1,21 @@
-
-#class Parent;
 #include "base.hpp"
 
-class Child
-{
-protected:
-    Parent* _parent;
-};
+namespace core {
 
-class Parent : public Child
-{
-public:
-    Parent(Parent* parent = NULL);
+    class Parent;
 
+    class Child
+    {
+    public:
+	Child(Parent* parent = NULL);
+
+    protected:
+	Parent* _parent;
+    };
+
+    class Parent : public Child
+    {
+    public:
 	inline void after(Parent* n)
 	{
 	    if (_parent != NULL)
@@ -24,12 +27,14 @@ public:
 	inline void before(Child* n)
 	{_children.push_back(n);}
 
-protected:
-	Node* _parent;
+	virtual ~Parent();
 
+    protected:
 	std::vector<Child*> _children;
 
 	int find(Child* n);
 
-	void swap(Child* a, Child* b);
+	void swap(Child* a, Parent* b);
+    };
+
 }
