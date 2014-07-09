@@ -5,8 +5,24 @@
 Make a way to add notes
 Add all of your to-dos into the system
 command-like interface
-Make OrgBot a node (but not a note)
+seperate name from path (make path() fucntion, which concats name and dir)
+
+//Later: make nested notes workable. Thing you'll need:
+     //once a note's children vector is > 0, delete this notes folder
+     //and put it in a newly made directory for this note
+     //the note will save itself in this directory with a standard name, note.a
+     //all of its children will also save in this directory
+     //will also have to turn back into a file after last child removed (not really)(unless you mean note.a)
+
+     //Remember: You have before AND after function for all your nodes.
+     //You can swap their order quite easily.
 */
+
+/*
+Don't get rid of this file!
+Still have edited variable information in here
+still unofficial hub
+ */
 
 namespace core
 {
@@ -15,7 +31,7 @@ namespace core
     {
 /* Makes a child of b, b child of this
    Prerequistes:
-   a needs to already be a child of this node,
+   a needsys to already be a child of this node,
    and b needs to not be
 */
 	int i = find(a);
@@ -45,7 +61,7 @@ namespace core
 	    std::ifstream _file(name.c_str());
 	    if (_file.is_open()) 
 		_file >> *this;
-	    else
+	    else //Can't find file, make a new one with msg from input
 		listen();
 	}
     }
@@ -55,7 +71,7 @@ namespace core
 	if (edited)
 	{
 	    std::ofstream _file;
-	    _file.open(name.c_str());
+	    _file.open(path().c_str());
 	    _file << *this;
 	}
 	return edited;
@@ -76,9 +92,11 @@ namespace core
     std::ostream& operator<<(std::ostream& os, const note& anote)
     {return os << anote.msg;}
 
-    const std::string OrgBot::data_dir = "/home/carlshiles/bin/.storm_data";
-
-    OrgBot::OrgBot() {}
+    OrgBot::OrgBot() : note(std::string(HOME_DIR)+"/.storm_data", "This is OrgBot")
+    {
+	TEST("yo "<< HOME_DIR);
+	makeParent();
+    }
 
     bool OrgBot::read_loop(std::string dir_name)
     {
@@ -115,7 +133,7 @@ namespace core
 
     inline
     bool OrgBot::read_loop()
-    {return read_loop(data_dir);}
+    {return read_loop(path());}
 
     bool OrgBot::load(std::string path)
     {
@@ -127,19 +145,30 @@ namespace core
 	else
 	    xten = ' ';
 */
-	notes.push_back(new note(path));
+	children.push_back(new note(path));
 	return true;
     }
 
     void OrgBot::print_all()
     {
-	for (note* n : notes)
-	    TEST(*n);
+//Make the cast a funcction, but leave this here
+//Mjust first determine my pattern of use
+	for (node* n : children)
+	    TEST(*((note *)n));
+    }
+
+    bool OrgBot::add(std::string name, std::string msg = "", node* p = NULL)
+    {
+	note* gnu = new note(name, msg, p);
+	if (p == NULL) //Has no parent node, added directly to OrgBot
+	    children.push_back(gnu);
+	gnu->save();
     }
 }
     int main()
     {
 	core::OrgBot n;
 	n.read_loop();
+	n.add("new shit");
 	n.print_all();
     }

@@ -11,6 +11,8 @@
 #define TEST(msg) std::cout << "TEST: " << msg << std::endl;
 #define ERROR(msg) std::cout << "ERROR: " << msg << std::endl;
 
+#define HOME_DIR "/home/carlshiles/bin"
+
 namespace core 
 {
     class node
@@ -48,7 +50,8 @@ namespace core
 
     class note : public node
     {
-	std::string name, msg;
+    protected:
+	std::string name, msg, dir;
 
 	bool edited;
 
@@ -58,6 +61,14 @@ namespace core
 
 	note(std::string n, std::string m, node* p);
 
+	inline
+	std::string path()
+	{
+	    if (isParent())
+		return name
+	    return dir + "/" + name;
+	}
+
 	bool save();
 
 	inline void clear() {msg="";}
@@ -66,20 +77,38 @@ namespace core
 
 	friend 
 	std::ostream& operator<<(std::ostream& os, const note& anote);
+
+	inline bool is_parent()
+	{return children.size() > 0;}
+
+	void make_parent()
+	{
+	    edited = true;
+	    dir += "/"+name;
+	    name = "note.a";
+	    system(("mkdir "+dir).c_str());
+	    save(); 
+	}
 	
+	bool add(note* n)
+	{
+	    edited = true;
+	    before(n);
+	    if (! is_parent())
+		make_parent();
+	}
     };
 
-    class OrgBot //make it a node
+    class OrgBot : public note
     {
     public:
 	OrgBot();
 	bool read_loop();
 	bool load(std::string path);
-	static const std::string data_dir;
-	void 	print_all();
+	void   print_all();
+	bool add(std::string name, std::string msg, node* parent);
     private:	
 	bool read_loop(std::string dir_name);
-	std::vector<note*> notes;
     };
 
 }
