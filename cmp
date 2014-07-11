@@ -1,3 +1,12 @@
+#!/bin/bash
+
+function compile {
+   g++ -c $1 -o code/`basename $1 .cpp`.o -std=gnu++0x
+}
 clear
-# g++ node.cpp -o ~/bin/storm -std=gnu++0x
-g++ sketch.cpp -std=gnu++0x
+
+
+compile family.cpp
+compile file_ops.cpp
+compile note.cpp
+##  g++ note.cpp -o ~/bin/storm -std=gnu++0x
