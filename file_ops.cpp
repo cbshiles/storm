@@ -114,22 +114,3 @@ namespace file_ops {
     }
 
 }
-    int main()
-    {
-	file_ops::File_Obj* tst = file_ops::search("test/a");
-	TEST(((file_ops::Text*)tst)->read_all());
-    }
-
-/*
-  File_Obj* poo = search("../storm/poop");
-  if (poo == NULL)
-  {
-  poo = new Text("../storm/poop");
-  poo->create();
-  }
-*/
-
-/*  
-    for (std::string str : file()->list_files())
-    TEST(str);
-*/

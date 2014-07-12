@@ -5,8 +5,7 @@ function compile {
 }
 clear
 
-
-compile family.cpp
-compile file_ops.cpp
-compile note.cpp
+#compile file.cpp for individual testing
 ##  g++ note.cpp -o ~/bin/storm -std=gnu++0x
+
+g++ -o run {file_ops,family,note,org_bot}.cpp -std=gnu++0x
