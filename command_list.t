@@ -1,4 +1,7 @@
-right now its taking all or most of the message and using it as the name of the thing, here;s what we do
-1)check read loop, and make sure its picking up the last word
-2)use naming method instead of the text
-3)use the text as the actual message (clearly)
+Commands:
+
+1)next - Simple, go to the next note
+2)up - Go back to the parent of the current note
+3)new (msg) - Create a new note, everything after new will be it's message
+4)del - delete the current note
+5)exit - Leave the program altogether
